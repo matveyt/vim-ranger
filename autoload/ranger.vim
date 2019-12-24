@@ -21,8 +21,10 @@ function s:default_range(cmd)
 endfunction
 
 function s:remove_hilite(var, ...) abort
-    silent! execute 'autocmd!' a:var
-    silent! execute 'augroup!' a:var
+    if exists('#' . a:var)
+        execute 'autocmd!' a:var
+        execute 'augroup!' a:var
+    endif
     if exists('w:' . a:var) && type(w:{a:var}) == v:t_dict
         silent! call matchdelete(w:{a:var}.id)
         let l:isPrev = w:{a:var}.start == get(a:, 1) && w:{a:var}.end == get(a:, 2)
@@ -36,8 +38,9 @@ function s:add_hilite(var) range
         let w:{a:var} = {'start': a:firstline, 'end': a:lastline,
             \ 'id': matchadd('Visual', printf('\%%>%dl\%%<%dl', a:firstline - 1,
                 \ a:lastline + 1))}
-        execute 'augroup' a:var '| autocmd! CmdlineLeave : ++once'
-            \ 'call s:remove_hilite(' . string(a:var) . ')' | augroup end
+        execute 'augroup' a:var
+            execute 'autocmd! CmdlineLeave : call s:remove_hilite("' . a:var . '")'
+        augroup end
     endif
     redraw
 endfunction
