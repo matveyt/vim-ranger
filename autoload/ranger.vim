@@ -21,10 +21,8 @@ function s:default_range(cmd)
 endfunction
 
 function s:remove_hilite(var, ...) abort
-    if exists('#' . a:var)
-        execute 'autocmd!' a:var
-        execute 'augroup!' a:var
-    endif
+    silent! execute 'autocmd!' a:var
+    silent! execute 'augroup!' a:var
     if exists('w:' . a:var) && type(w:{a:var}) == v:t_dict
         silent! call matchdelete(w:{a:var}.id)
         let l:isPrev = w:{a:var}.start == get(a:, 1) && w:{a:var}.end == get(a:, 2)
