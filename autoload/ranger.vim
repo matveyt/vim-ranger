@@ -1,6 +1,6 @@
 " Vim plugin to visualize Ex-range
 " Maintainer:   matveyt
-" Last Change:  2019 Dec 24
+" Last Change:  2019 Dec 25
 " License:      VIM License
 " URL:          https://github.com/matveyt/vim-ranger
 
@@ -37,7 +37,7 @@ function s:add_hilite(var) range
     if !s:remove_hilite(a:var, a:firstline, a:lastline)
         let w:{a:var} = {'start': a:firstline, 'end': a:lastline,
             \ 'id': matchadd('Visual', printf('\%%>%dl\%%<%dl', a:firstline - 1,
-                \ a:lastline + 1))}
+                \ a:lastline + 1), 0)}
         execute 'augroup' a:var
             execute 'autocmd! CmdlineLeave : call s:remove_hilite("' . a:var . '")'
         augroup end
