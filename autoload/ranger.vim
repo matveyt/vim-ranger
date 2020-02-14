@@ -1,6 +1,6 @@
 " Vim plugin to visualize Ex-range
 " Maintainer:   matveyt
-" Last Change:  2019 Dec 25
+" Last Change:  2020 Feb 12
 " License:      VIM License
 " URL:          https://github.com/matveyt/vim-ranger
 
@@ -47,7 +47,7 @@ endfunction
 
 function! ranger#plug(type, line)
     " do nothing if not on Ex-line
-    if a:type !=# ':'
+    if a:type isnot# ':'
         return ''
     endif
     try
