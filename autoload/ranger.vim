@@ -1,13 +1,13 @@
 " Vim plugin to visualize Ex-range
 " Maintainer:   matveyt
-" Last Change:  2020 Feb 12
+" Last Change:  2020 Jul 29
 " License:      VIM License
 " URL:          https://github.com/matveyt/vim-ranger
 
 let s:save_cpo = &cpo
 set cpo&vim
 
-function s:default_range(cmd)
+function s:default_range(cmd) abort
     for l:pat in ['\=', 'dj%[ump]', 'dli%[st]', 'ds%[earch]', 'dsp%[lit]', 'exi%[t]',
         \ 'foldd%[oopen]', 'folddoc%[losed]', 'g%[lobal]', 'ha%[rdcopy]', 'ij%[ump]',
         \ 'il%[ist]', 'is%[earch]', 'isp%[lit]', 'luado', 'mz%[scheme]', 'pe%[rl]',
@@ -33,7 +33,7 @@ function s:remove_hilite(var, ...) abort
     endif
 endfunction
 
-function s:add_hilite(var) range
+function s:add_hilite(var) range abort
     if !s:remove_hilite(a:var, a:firstline, a:lastline)
         let w:{a:var} = {'start': a:firstline, 'end': a:lastline,
             \ 'id': matchadd('Visual', printf('\%%>%dl\%%<%dl', a:firstline - 1,
@@ -45,7 +45,7 @@ function s:add_hilite(var) range
     redraw
 endfunction
 
-function! ranger#plug(type, line)
+function! ranger#plug(type, line) abort
     " do nothing if not on Ex-line
     if a:type isnot# ':'
         return ''
