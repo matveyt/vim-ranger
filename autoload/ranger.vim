@@ -1,6 +1,6 @@
-" Vim plugin to visualize Ex-range
+" Vim plugin to visualize :range
 " Maintainer:   matveyt
-" Last Change:  2020 Jul 29
+" Last Change:  2020 Nov 12
 " License:      VIM License
 " URL:          https://github.com/matveyt/vim-ranger
 
@@ -8,12 +8,12 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 function s:default_range(cmd) abort
-    for l:pat in ['\=', 'dj%[ump]', 'dli%[st]', 'ds%[earch]', 'dsp%[lit]', 'exi%[t]',
+    for l:pattern in ['\=', 'dj%[ump]', 'dli%[st]', 'ds%[earch]', 'dsp%[lit]', 'exi%[t]',
         \ 'foldd%[oopen]', 'folddoc%[losed]', 'g%[lobal]', 'ha%[rdcopy]', 'ij%[ump]',
         \ 'il%[ist]', 'is%[earch]', 'isp%[lit]', 'luado', 'mz%[scheme]', 'pe%[rl]',
         \ 'perld%[o]', 'ps%[earch]', 'pydo', 'py3do', 'pyxdo', 'ret%[ab]', 'rubyd%[o]',
         \ 'sor%[t]', 'tcld%[o]', 'up%[date]', 'v%[global]', 'w%[rite]', 'wq', 'x%[it]']
-        if a:cmd =~# '\v^' . l:pat . '%(\A|$)'
+        if a:cmd =~# '\v^'..l:pattern..'%(\A|$)'
             return '%'
         endif
     endfor
@@ -21,15 +21,15 @@ function s:default_range(cmd) abort
 endfunction
 
 function s:remove_hilite(var, ...) abort
-    if exists('#' . a:var)
+    if exists('#'..a:var)
         execute 'autocmd!' a:var
         execute 'augroup!' a:var
     endif
-    if exists('w:' . a:var) && type(w:{a:var}) == v:t_dict
+    if exists('w:'..a:var) && type(w:{a:var}) == v:t_dict
         silent! call matchdelete(w:{a:var}.id)
-        let l:isPrev = w:{a:var}.start == get(a:, 1) && w:{a:var}.end == get(a:, 2)
+        let l:is_prev = w:{a:var}.start == get(a:, 1) && w:{a:var}.end == get(a:, 2)
         unlet w:{a:var}
-        return l:isPrev
+        return l:is_prev
     endif
 endfunction
 
@@ -39,7 +39,8 @@ function s:add_hilite(var) range abort
             \ 'id': matchadd('Visual', printf('\%%>%dl\%%<%dl', a:firstline - 1,
                 \ a:lastline + 1), 0)}
         execute 'augroup' a:var
-            execute 'autocmd! CmdlineLeave : call s:remove_hilite("' . a:var . '")'
+            execute printf('autocmd! CmdlineLeave : call s:remove_hilite(%s)',
+                \ string(a:var))
         augroup end
     endif
     redraw
