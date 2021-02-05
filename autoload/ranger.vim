@@ -1,6 +1,6 @@
 " Vim plugin to visualize :range
 " Maintainer:   matveyt
-" Last Change:  2020 Nov 12
+" Last Change:  2021 Feb 05
 " License:      VIM License
 " URL:          https://github.com/matveyt/vim-ranger
 
@@ -25,17 +25,17 @@ function s:remove_hilite(var, ...) abort
         execute 'autocmd!' a:var
         execute 'augroup!' a:var
     endif
-    if exists('w:'..a:var) && type(w:{a:var}) == v:t_dict
-        silent! call matchdelete(w:{a:var}.id)
-        let l:is_prev = w:{a:var}.start == get(a:, 1) && w:{a:var}.end == get(a:, 2)
-        unlet w:{a:var}
-        return l:is_prev
+    let l:match = get(w:, a:var)
+    if type(l:match) == v:t_dict
+        silent! call matchdelete(l:match.id)
+        call remove(w:, a:var)
+        return l:match.start == get(a:, 1) && l:match.end == get(a:, 2)
     endif
 endfunction
 
 function s:add_hilite(var) range abort
     if !s:remove_hilite(a:var, a:firstline, a:lastline)
-        let w:{a:var} = {'start': a:firstline, 'end': a:lastline,
+        let w:[a:var] = {'start': a:firstline, 'end': a:lastline,
             \ 'id': matchadd('Visual', printf('\%%>%dl\%%<%dl', a:firstline - 1,
                 \ a:lastline + 1), 0)}
         execute 'augroup' a:var
