@@ -2,14 +2,12 @@
 
 This plugin adds highlight for lines addressed by a currently typed command.
 
-### Download and Install
+#### Download and Install
 
-Use whatever plugin manager to pull the master branch.
+```
+$ git clone https://github.com/matveyt/vim-ranger ~/.vim/pack/manual/start/vim-ranger
+```
 
-### Usage
+#### Usage
 
-Read `:help ranger`.
-
-### License
-
-Distributed under the same terms as Vim itself. See `:help license`.
+See `:help ranger.txt`.

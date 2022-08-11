@@ -1,20 +1,20 @@
-*ranger.txt*           Ranger - highlight command line range
+*ranger.txt*	Highlight command-line range
 
 ==============================================================================
-OVERVIEW                                                              *ranger*
+OVERVIEW							      *ranger*
 
 |Ranger| is a plugin to visualize a line |:range| of a currently typed
-command. Simply press a hotkey to see what lines will be affected by a command
+command. Press a hotkey to see which lines will be affected by a command
 before running it.
 
 ==============================================================================
-MAPPINGS                                                     *ranger-mappings*
+MAPPINGS						     *ranger-mappings*
 
-                                                                  <plug>Ranger
-<plug>Ranger
-    Simply does it. Must be invoked from the command line. By default the
-    plugin maps <C-X> to this one. Re-define it with: >
-    cmap <key> <plug>Ranger
+								<plug>ranger;
+<plug>ranger;
+    Just do it. Must be invoked from the command line. By default the plugin
+    maps <C-X> to this one. Re-define it with >
+    cmap <key> <plug>ranger;
 <
 
 ==============================================================================
